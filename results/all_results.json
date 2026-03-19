@@ -1,0 +1,18 @@
+[
+  {
+    "mode": "global_static",
+    "error": "Services not healthy"
+  },
+  {
+    "mode": "global_dynamic",
+    "error": "Services not healthy"
+  },
+  {
+    "mode": "entity_dynamic",
+    "error": "Services not healthy"
+  },
+  {
+    "mode": "entity_drift",
+    "error": "Services not healthy"
+  }
+]

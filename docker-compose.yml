@@ -1,0 +1,222 @@
+services:
+  # MQTT Broker
+  mqtt:
+    image: eclipse-mosquitto:2.0
+    container_name: mqtt-broker
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./docker/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mqtt-data:/mosquitto/data
+      - mqtt-logs:/mosquitto/log
+    networks:
+      - anomaly-detection
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - anomaly-detection
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: redis-server --appendonly yes
+
+  # Simulator Service
+  simulator:
+    build:
+      context: ./services/simulator
+      dockerfile: Dockerfile
+    container_name: simulator
+    ports:
+      - "8000:8000"
+    environment:
+      - MQTT_BROKER_HOST=mqtt
+      - MQTT_BROKER_PORT=1883
+      - MQTT_TOPIC_TELEMETRY_BASE=telemetry/
+      - DEFAULT_RATE=2.0
+      - NUM_FEATURES=16
+      - ANOMALY_PROBABILITY=0.05
+      - SPIKE_MAGNITUDE=3.0
+      - NOISE_MAGNITUDE=1.0
+      - DRIFT_MAGNITUDE=0.5
+      - DRIFT_DURATION=300.0
+    networks:
+      - anomaly-detection
+    depends_on:
+      mqtt:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Model Service
+  model:
+    build:
+      context: ./services/model
+      dockerfile: Dockerfile
+    container_name: model-service
+    ports:
+      - "8002:8002"
+    environment:
+      - MODEL_PATH=model.pt
+      - NORM_STATS_PATH=norm_stats.json
+      - INPUT_DIM=16
+      - HIDDEN_DIM=128
+      - LATENT_DIM=64
+      - NUM_LAYERS=2
+      - DROPOUT=0.2
+      - EPSILON=1e-6
+    volumes:
+      - ./services/model/model.pt:/app/model.pt
+      - ./services/model/norm_stats.json:/app/norm_stats.json
+    networks:
+      - anomaly-detection
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Threshold Engine
+  threshold:
+    build:
+      context: ./services/threshold
+      dockerfile: Dockerfile
+    container_name: threshold-engine
+    ports:
+      - "8003:8003"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - MQTT_BROKER_HOST=mqtt
+      - MQTT_BROKER_PORT=1883
+      - MQTT_TOPIC_ANOMALY=anomalies/
+      - ERROR_WINDOW=20
+      - K=1.0
+      - ALPHA=0.1
+      - ANOMALY_PERSISTENCE=1
+      - ERROR_SMOOTH_WINDOW=1
+      - DRIFT_THRESHOLD=0.05
+      - EPSILON=1e-6
+      - GLOBAL_MEAN=0.9
+      - GLOBAL_STD=0.1
+      - THRESHOLD_MODE=global_static
+      - PREDICTION_LOG_ENABLED=true
+      - PREDICTION_LOG_PATH=/data/predictions.csv
+    volumes:
+      - evaluation-data:/data
+    networks:
+      - anomaly-detection
+    depends_on:
+      redis:
+        condition: service_healthy
+      mqtt:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Ingestion Service
+  ingestion:
+    build:
+      context: ./services/ingestion
+      dockerfile: Dockerfile
+    container_name: ingestion-service
+    ports:
+      - "8001:8001"
+    environment:
+      - MQTT_BROKER_HOST=mqtt
+      - MQTT_BROKER_PORT=1883
+      - MQTT_TOPIC_TELEMETRY=telemetry/+
+      - MQTT_SHARE_GROUP=ingestion-group
+      - WINDOW_SIZE=50
+      - WINDOW_STRIDE=25
+      - ENTITY_TIMEOUT_SEC=300
+      - MODEL_SERVICE_URL=http://model:8002
+      - THRESHOLD_SERVICE_URL=http://threshold:8003
+      - HTTP_TIMEOUT=15.0
+      - EVALUATION_LOG_ENABLED=true
+      - EVALUATION_LOG_PATH=/data/evaluation.csv
+    volumes:
+      - evaluation-data:/data
+    networks:
+      - anomaly-detection
+    depends_on:
+      mqtt:
+        condition: service_healthy
+      model:
+        condition: service_healthy
+      threshold:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    # Scale ingestion service for load balancing
+    deploy:
+      replicas: 1
+
+  # API Gateway
+  api:
+    build:
+      context: ./services/api
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - MODEL_SERVICE_URL=http://model:8002
+      - THRESHOLD_SERVICE_URL=http://threshold:8003
+      - REDIS_URL=redis://redis:6379
+      - HTTP_TIMEOUT=10.0
+      - ERROR_WINDOW=20
+      - K=1.0
+      - ALPHA=0.1
+      - DRIFT_THRESHOLD=0.05
+      - EPSILON=1e-6
+      - GLOBAL_MEAN=0.9
+      - GLOBAL_STD=0.1
+    networks:
+      - anomaly-detection
+    depends_on:
+      redis:
+        condition: service_healthy
+      model:
+        condition: service_healthy
+      threshold:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  anomaly-detection:
+    driver: bridge
+
+volumes:
+  mqtt-data:
+  mqtt-logs:
+  redis-data:
+  evaluation-data:

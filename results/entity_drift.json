@@ -1,0 +1,258 @@
+{
+  "mode": "entity_drift",
+  "timestamp": "2026-03-19T16:16:55.875240",
+  "total_records": 303,
+  "classification": {
+    "precision": 0.5806,
+    "recall": 0.7956,
+    "f1_score": 0.6713,
+    "true_positives": 144,
+    "false_positives": 104,
+    "true_negatives": 18,
+    "false_negatives": 37,
+    "total_samples": 303
+  },
+  "per_entity": {
+    "engine_2": {
+      "precision": 0.2308,
+      "recall": 0.8,
+      "f1_score": 0.3582,
+      "true_positives": 12,
+      "false_positives": 40,
+      "true_negatives": 5,
+      "false_negatives": 3,
+      "total_samples": 60
+    },
+    "engine_1": {
+      "precision": 0.4667,
+      "recall": 0.6364,
+      "f1_score": 0.5385,
+      "true_positives": 21,
+      "false_positives": 24,
+      "true_negatives": 2,
+      "false_negatives": 12,
+      "total_samples": 59
+    },
+    "pump_1": {
+      "precision": 0.6735,
+      "recall": 0.7674,
+      "f1_score": 0.7174,
+      "true_positives": 33,
+      "false_positives": 16,
+      "true_negatives": 2,
+      "false_negatives": 10,
+      "total_samples": 61
+    },
+    "sensor_1": {
+      "precision": 0.7647,
+      "recall": 0.907,
+      "f1_score": 0.8298,
+      "true_positives": 39,
+      "false_positives": 12,
+      "true_negatives": 7,
+      "false_negatives": 4,
+      "total_samples": 62
+    },
+    "turbine_1": {
+      "precision": 0.7647,
+      "recall": 0.8298,
+      "f1_score": 0.7959,
+      "true_positives": 39,
+      "false_positives": 12,
+      "true_negatives": 2,
+      "false_negatives": 8,
+      "total_samples": 61
+    }
+  },
+  "drift_recovery": {
+    "engine_2": {
+      "drift_events": 5,
+      "avg_recovery_time_ms": 999928.8,
+      "min_recovery_time_ms": 543458,
+      "max_recovery_time_ms": 2148474,
+      "drift_periods": [
+        {
+          "drift_start": 1773912326407,
+          "drift_end": 1773913288610,
+          "recovery_time_ms": 2148474
+        },
+        {
+          "drift_start": 1773913562515,
+          "drift_end": 1773913837354,
+          "recovery_time_ms": 912366
+        },
+        {
+          "drift_start": 1773914474881,
+          "drift_end": 1773914737350,
+          "recovery_time_ms": 543458
+        },
+        {
+          "drift_start": 1773915018339,
+          "drift_end": 1773915377473,
+          "recovery_time_ms": 683265
+        },
+        {
+          "drift_start": 1773916157831,
+          "drift_end": 1773916592890,
+          "recovery_time_ms": 712081
+        }
+      ]
+    },
+    "engine_1": {
+      "drift_events": 5,
+      "avg_recovery_time_ms": 1540367.2,
+      "min_recovery_time_ms": 577065,
+      "max_recovery_time_ms": 3817987,
+      "drift_periods": [
+        {
+          "drift_start": 1773910658897,
+          "drift_end": 1773910668972,
+          "recovery_time_ms": 3817987
+        },
+        {
+          "drift_start": 1773913288109,
+          "drift_end": 1773913627566,
+          "recovery_time_ms": 1188775
+        },
+        {
+          "drift_start": 1773913899819,
+          "drift_end": 1773914243388,
+          "recovery_time_ms": 577065
+        },
+        {
+          "drift_start": 1773914476884,
+          "drift_end": 1773915376972,
+          "recovery_time_ms": 1226722
+        },
+        {
+          "drift_start": 1773915703606,
+          "drift_end": 1773916594893,
+          "recovery_time_ms": 891287
+        }
+      ]
+    },
+    "pump_1": {
+      "drift_events": 4,
+      "avg_recovery_time_ms": 1593670.25,
+      "min_recovery_time_ms": 612993,
+      "max_recovery_time_ms": 3815474,
+      "drift_periods": [
+        {
+          "drift_start": 1773910660409,
+          "drift_end": 1773913287106,
+          "recovery_time_ms": 3815474
+        },
+        {
+          "drift_start": 1773914037783,
+          "drift_end": 1773915021102,
+          "recovery_time_ms": 983319
+        },
+        {
+          "drift_start": 1773915089612,
+          "drift_end": 1773915158120,
+          "recovery_time_ms": 612993
+        },
+        {
+          "drift_start": 1773915770932,
+          "drift_end": 1773916361473,
+          "recovery_time_ms": 962895
+        }
+      ]
+    },
+    "sensor_1": {
+      "drift_events": 6,
+      "avg_recovery_time_ms": 1054347.33,
+      "min_recovery_time_ms": 214443,
+      "max_recovery_time_ms": 3817988,
+      "drift_periods": [
+        {
+          "drift_start": 1773910658396,
+          "drift_end": 1773913287607,
+          "recovery_time_ms": 3817988
+        },
+        {
+          "drift_start": 1773913559010,
+          "drift_end": 1773913831087,
+          "recovery_time_ms": 917374
+        },
+        {
+          "drift_start": 1773913899318,
+          "drift_end": 1773914174625,
+          "recovery_time_ms": 577066
+        },
+        {
+          "drift_start": 1773914807160,
+          "drift_end": 1773915021603,
+          "recovery_time_ms": 214443
+        },
+        {
+          "drift_start": 1773915703105,
+          "drift_end": 1773916225226,
+          "recovery_time_ms": 522121
+        },
+        {
+          "drift_start": 1773916662842,
+          "drift_end": 1773916939934,
+          "recovery_time_ms": 277092
+        }
+      ]
+    },
+    "turbine_1": {
+      "drift_events": 8,
+      "avg_recovery_time_ms": 1216046.25,
+      "min_recovery_time_ms": 277093,
+      "max_recovery_time_ms": 3817989,
+      "drift_periods": [
+        {
+          "drift_start": 1773910657394,
+          "drift_end": 1773912188741,
+          "recovery_time_ms": 3817989
+        },
+        {
+          "drift_start": 1773912256383,
+          "drift_end": 1773913286605,
+          "recovery_time_ms": 2219000
+        },
+        {
+          "drift_start": 1773913490141,
+          "drift_end": 1773913761993,
+          "recovery_time_ms": 985242
+        },
+        {
+          "drift_start": 1773914105464,
+          "drift_end": 1773914475383,
+          "recovery_time_ms": 369919
+        },
+        {
+          "drift_start": 1773914806159,
+          "drift_end": 1773915375471,
+          "recovery_time_ms": 1032772
+        },
+        {
+          "drift_start": 1773915443489,
+          "drift_end": 1773915910147,
+          "recovery_time_ms": 712342
+        },
+        {
+          "drift_start": 1773915978498,
+          "drift_end": 1773916292511,
+          "recovery_time_ms": 314013
+        },
+        {
+          "drift_start": 1773916661840,
+          "drift_end": 1773916938933,
+          "recovery_time_ms": 277093
+        }
+      ]
+    }
+  },
+  "latency": {
+    "average_latency_ms": 562.59,
+    "p50_latency_ms": 77.0,
+    "p95_latency_ms": 2128.0,
+    "p99_latency_ms": 2412.0,
+    "min_latency_ms": 8.0,
+    "max_latency_ms": 4036.0,
+    "sample_count": 303
+  }
+}

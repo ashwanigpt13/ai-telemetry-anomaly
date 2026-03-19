@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-03-19T14:55:56.232717",
+  "modes": [
+    "global_static",
+    "global_dynamic",
+    "entity_dynamic",
+    "entity_drift"
+  ],
+  "duration_seconds": 60,
+  "warmup_seconds": 30,
+  "cooldown_seconds": 10
+}
