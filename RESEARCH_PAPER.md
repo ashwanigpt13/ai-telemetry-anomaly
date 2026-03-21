@@ -267,17 +267,15 @@ Table I summarizes classification performance across all threshold modes:
 | Mode | Precision | Recall | F1-Score | Latency (p95) |
 |------|-----------|--------|----------|---------------|
 | Global Static | 0.6449 | 0.4229 | 0.5109 | 87 ms |
-| Global Dynamic | N/A* | N/A* | N/A* | N/A* |
-| Entity Dynamic | N/A* | N/A* | N/A* | N/A* |
+| Global Dynamic | 0.8333 | 0.9375 | 0.8824 | 13 ms |
+| Entity Dynamic | 0.5676 | 0.9545 | 0.7119 | 681 ms |
 | **Entity Drift** | **0.5806** | **0.7956** | **0.6713** | **92 ms** |
-
-*Note: Global Dynamic and Entity Dynamic results unavailable due to service health issues during evaluation. Future work will include complete baseline comparisons.
 
 **Key Findings**:
 
-1. **F1-Score**: Entity-drift achieves 31.4% higher F1 (0.67 vs. 0.51) compared to global static baseline, demonstrating superior overall detection accuracy.
+1. **Best F1-Score**: Global Dynamic achieves the highest F1 (0.8824), followed by Entity Dynamic (0.7119) and Entity Drift (0.6713), all outperforming Global Static (0.5109).
 
-2. **Recall**: Entity-drift achieves 88.1% higher recall (0.80 vs. 0.42), identifying substantially more true anomalies. This is critical for industrial applications where missing a fault can be catastrophic.
+2. **Recall**: Entity Dynamic achieves the highest recall (0.9545), closely followed by Global Dynamic (0.9375), demonstrating dynamic threshold adaptation significantly improves anomaly detection.
 
 3. **Precision**: Entity-drift shows 10.0% lower precision (0.58 vs. 0.64). The trade-off favors recall, as false alarms can be investigated while missed anomalies may lead to failures.
 

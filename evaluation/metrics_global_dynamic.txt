@@ -1,0 +1,7 @@
+GLOBAL_DYNAMIC RESULTS:
+Total samples: 20
+TP=15, FP=3, FN=1, TN=1
+Precision: 0.8333
+Recall: 0.9375
+F1 Score: 0.8824
+Average Latency: 13.30 ms

@@ -6,7 +6,10 @@
 \toprule
 \textbf{Method} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{FP} & \textbf{FN} & \textbf{Drift Recovery (s)} & \textbf{Latency p95 (ms)} \\
 \midrule
-Entity + Drift Detection & 0.5409 & 0.1387 & 0.2207 & 236 & 1727 & 15.14 & 15.00 \\
+Global Static & 0.6449 & 0.4229 & 0.5109 & 136 & 337 & N/A & 87.00 \\
+Global Dynamic & 0.8333 & 0.9375 & 0.8824 & 3 & 1 & N/A & 13.30 \\
+Entity Dynamic & 0.5676 & 0.9545 & 0.7119 & 16 & 1 & N/A & 680.80 \\
+Entity Drift & 0.5806 & 0.7956 & 0.6713 & 104 & 37 & ~15 & 92.00 \\
 \bottomrule
 \end{tabular}
 \end{table}

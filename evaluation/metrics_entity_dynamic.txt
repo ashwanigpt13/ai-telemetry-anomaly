@@ -1,0 +1,7 @@
+ENTITY_DYNAMIC RESULTS:
+Total samples: 40
+TP=21, FP=16, FN=1, TN=2
+Precision: 0.5676
+Recall: 0.9545
+F1 Score: 0.7119
+Average Latency: 680.80 ms

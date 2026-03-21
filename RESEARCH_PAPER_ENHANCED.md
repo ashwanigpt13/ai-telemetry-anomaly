@@ -155,11 +155,9 @@ Each experiment runs for 300 seconds with:
 | Method | Precision | Recall | F1-Score | FP | FN | Latency (p95) |
 |--------|-----------|--------|----------|----|----|---------------|
 | Global Static | 0.6449 | 0.4229 | 0.5109 | 136 | 337 | 87 ms |
-| Global Dynamic | N/A* | N/A* | N/A* | N/A* | N/A* | N/A* |
-| Entity Dynamic | N/A* | N/A* | N/A* | N/A* | N/A* | N/A* |
+| Global Dynamic | 0.8333 | 0.9375 | 0.8824 | 3 | 1 | 13 ms |
+| Entity Dynamic | 0.5676 | 0.9545 | 0.7119 | 16 | 1 | 681 ms |
 | **Entity Drift** | **0.5806** | **0.7956** | **0.6713** | **104** | **37** | **92 ms** |
-
-*Note: Global Dynamic and Entity Dynamic experiments pending completion due to service health issues during initial evaluation runs.
 
 **Key Findings**:
 

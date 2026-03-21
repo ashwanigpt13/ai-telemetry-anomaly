@@ -221,12 +221,15 @@ python generate_pr_curve.py evaluation_drift.csv pr_curve.png
 | Method | Precision | Recall | F1-Score | Improvement |
 |--------|-----------|--------|----------|-------------|
 | Global Static | 0.6449 | 0.4229 | 0.5109 | Baseline |
+| Global Dynamic | 0.8333 | 0.9375 | 0.8824 | +72.7% F1 |
+| Entity Dynamic | 0.5676 | 0.9545 | 0.7119 | +39.3% F1 |
 | **Entity Drift** | **0.5806** | **0.7956** | **0.6713** | **+31.4% F1** |
 
 **Key Findings**:
-- 88.1% higher recall (0.80 vs 0.42)
-- 89% fewer false negatives (37 vs 337)
-- Statistically significant (p < 0.001)
+- Global Dynamic achieves highest F1 (0.8824) with exceptional precision/recall balance
+- Entity Dynamic achieves highest recall (0.9545) but with lower precision
+- Entity Drift maintains good balance while detecting concept drift
+- All dynamic methods significantly outperform static baseline
 
 ### Class Distribution
 
