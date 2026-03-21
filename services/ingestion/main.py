@@ -129,7 +129,9 @@ def flush_evaluation():
     # Ensure directory exists
     os.makedirs(os.path.dirname(settings.EVALUATION_LOG_PATH), exist_ok=True)
     
+    # Check if file exists and is non-empty (write header if empty or new)
     file_exists = os.path.exists(settings.EVALUATION_LOG_PATH)
+    file_empty = file_exists and os.path.getsize(settings.EVALUATION_LOG_PATH) == 0
     
     try:
         with open(settings.EVALUATION_LOG_PATH, 'a', newline='') as f:
@@ -137,7 +139,7 @@ def flush_evaluation():
                 "entity_id", "timestamp", "actual_anomaly", "anomaly_type",
                 "predicted_anomaly", "error", "threshold", "drift", "latency_ms"
             ])
-            if not file_exists:
+            if not file_exists or file_empty:
                 writer.writeheader()
             writer.writerows(evaluation_buffer)
         

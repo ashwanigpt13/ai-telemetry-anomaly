@@ -114,7 +114,7 @@ services:
       - EPSILON=1e-6
       - GLOBAL_MEAN=0.9
       - GLOBAL_STD=0.1
-      - THRESHOLD_MODE=global_static
+      - THRESHOLD_MODE=entity_drift
       - PREDICTION_LOG_ENABLED=true
       - PREDICTION_LOG_PATH=/data/predictions.csv
     volumes:
