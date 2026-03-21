@@ -31,11 +31,14 @@ class Settings(BaseSettings):
     
     # Anomaly configuration
     ANOMALY_PROBABILITY: float = 0.05
-    SPIKE_MAGNITUDE: float = 2.0
-    NOISE_MAGNITUDE: float = 0.5
-    DRIFT_MAGNITUDE: float = 0.3
+    SPIKE_MAGNITUDE: float = 3.0
+    NOISE_MAGNITUDE: float = 1.0
+    DRIFT_MAGNITUDE: float = 0.5
     DRIFT_DURATION: float = 300.0  # seconds
     NOISE_IS_ANOMALY: bool = False  # Whether noise injection counts as anomaly
+    
+    # Scenario mode: "mixed", "spike_only", "drift_only", "noise_only"
+    SIMULATION_MODE: str = "mixed"  # Controls which anomaly types to inject
     
     class Config:
         env_file = ".env"

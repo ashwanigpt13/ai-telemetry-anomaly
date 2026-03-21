@@ -201,14 +201,24 @@ def update_drift(state: dict):
 
 
 def decide_anomaly_type() -> AnomalyType:
-    """Randomly decide what type of anomaly to inject"""
+    """Randomly decide what type of anomaly to inject based on SIMULATION_MODE"""
     if random.random() > simulator_config.anomaly_probability:
         return AnomalyType.NONE
     
-    # If anomaly, choose type
-    anomaly_types = [AnomalyType.SPIKE, AnomalyType.NOISE, AnomalyType.DRIFT]
-    weights = [0.4, 0.3, 0.3]  # Spike more common than drift/noise
-    return random.choices(anomaly_types, weights=weights)[0]
+    # Choose based on simulation mode
+    mode = settings.SIMULATION_MODE.lower()
+    
+    if mode == "spike_only":
+        return AnomalyType.SPIKE
+    elif mode == "drift_only":
+        return AnomalyType.DRIFT
+    elif mode == "noise_only":
+        return AnomalyType.NOISE
+    else:  # "mixed" or default
+        # If anomaly, choose type with weights
+        anomaly_types = [AnomalyType.SPIKE, AnomalyType.NOISE, AnomalyType.DRIFT]
+        weights = [0.4, 0.3, 0.3]  # Spike more common than drift/noise
+        return random.choices(anomaly_types, weights=weights)[0]
 
 
 def generate_telemetry_message(entity_id: str) -> dict:
