@@ -1,0 +1,17 @@
+{
+  "global_mean": 0.6687690969890236,
+  "global_std": 0.12851440757879487,
+  "num_samples": 949,
+  "min_error": 0.4846326410770416,
+  "max_error": 1.5565228462219238,
+  "percentiles": {
+    "p50": 0.6429076194763184,
+    "p90": 0.8272842168807983,
+    "p95": 0.8943625092506406,
+    "p99": 1.0410807275772094
+  },
+  "metadata": {
+    "description": "Global reconstruction error statistics for cold-start threshold",
+    "dataset": "NASA Turbofan FD001"
+  }
+}

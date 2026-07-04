@@ -1,0 +1,9 @@
+{
+  "total_parameters": 129661,
+  "trainable_parameters": 129661,
+  "quantum_parameters": 24,
+  "classical_parameters": 129637,
+  "quantum_enabled": true,
+  "num_qubits": 4,
+  "quantum_layers": 2
+}

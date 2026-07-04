@@ -1,0 +1,12 @@
+{
+  "best_validation_loss": 0.87014040350914,
+  "best_epoch": 3,
+  "training_time_seconds": 49.84731698036194,
+  "total_parameters": 129661,
+  "trainable_parameters": 129661,
+  "quantum_parameters": 24,
+  "classical_parameters": 129637,
+  "quantum_enabled": true,
+  "num_qubits": 4,
+  "num_quantum_layers": 2
+}

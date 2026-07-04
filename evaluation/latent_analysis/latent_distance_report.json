@@ -1,0 +1,15 @@
+{
+  "normal_to_normal": {
+    "average_distance": 0.00161766034114275,
+    "n_samples": 13928
+  },
+  "normal_to_anomaly": {
+    "average_distance": 0.001477810314287764,
+    "n_samples_normal": 13928,
+    "n_samples_anomaly": 3821
+  },
+  "anomaly_to_anomaly": {
+    "average_distance": 0.001285842013432315,
+    "n_samples": 3821
+  }
+}

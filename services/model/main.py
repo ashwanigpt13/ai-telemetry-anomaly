@@ -66,32 +66,53 @@ class InferenceResponse(BaseModel):
     reconstruction_error: float = Field(..., description="Mean squared reconstruction error")
 
 
+class TemporalAttention(nn.Module):
+    """Differentiable temporal attention over LSTM outputs."""
+
+    def __init__(self, hidden_dim: int):
+        super().__init__()
+        self.attention = nn.Linear(hidden_dim, 1)
+
+    def forward(self, lstm_outputs: torch.Tensor):
+        scores = self.attention(lstm_outputs).squeeze(-1)
+        weights = torch.softmax(scores, dim=-1)
+        context = torch.bmm(weights.unsqueeze(1), lstm_outputs).squeeze(1)
+        return weights, context
+
+
 # Autoencoder model definition
 class LSTMEncoder(nn.Module):
     """LSTM-based encoder for sequence data"""
-    def __init__(self, input_dim: int, hidden_dim: int, latent_dim: int, num_layers: int = 1):
+    def __init__(self, input_dim: int, hidden_dim: int, latent_dim: int, num_layers: int = 1, dropout: float = 0.0):
         super().__init__()
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
         self.lstm = nn.LSTM(
             input_dim, hidden_dim, 
             num_layers=num_layers, 
-            batch_first=True
+            batch_first=True,
+            dropout=dropout if num_layers > 1 else 0.0
         )
+        self.attention = TemporalAttention(hidden_dim)
         self.fc = nn.Linear(hidden_dim, latent_dim)
     
     def forward(self, x):
         # x: (batch, seq_len, input_dim)
-        _, (h_n, _) = self.lstm(x)
-        # h_n: (num_layers, batch, hidden_dim)
-        h_n = h_n[-1]  # Take the last layer
-        latent = self.fc(h_n)
-        return latent
+        lstm_out, (h_n, c_n) = self.lstm(x)
+        _, context = self.attention(lstm_out)
+        latent = self.fc(context)
+        return latent, (h_n, c_n)
+
+    def get_attention_weights(self, x):
+        """Return attention weights for the provided input sequence."""
+        lstm_out, _ = self.lstm(x)
+        attention_weights, _ = self.attention(lstm_out)
+        return attention_weights
 
 
 class LSTMDecoder(nn.Module):
     """LSTM-based decoder for sequence reconstruction"""
-    def __init__(self, latent_dim: int, hidden_dim: int, output_dim: int, seq_len: int, num_layers: int = 1):
+    def __init__(self, latent_dim: int, hidden_dim: int, output_dim: int, seq_len: int, num_layers: int = 1, dropout: float = 0.0):
         super().__init__()
         self.hidden_dim = hidden_dim
         self.seq_len = seq_len
@@ -100,7 +121,8 @@ class LSTMDecoder(nn.Module):
         self.lstm = nn.LSTM(
             hidden_dim, hidden_dim, 
             num_layers=num_layers, 
-            batch_first=True
+            batch_first=True,
+            dropout=dropout if num_layers > 1 else 0.0
         )
         self.output_layer = nn.Linear(hidden_dim, output_dim)
     
@@ -122,12 +144,12 @@ class Autoencoder(nn.Module):
                  seq_len: int = 50, num_layers: int = 1, dropout: float = 0.0, hidden_dims: List[int] = None):
         super().__init__()
         # hidden_dims parameter is kept for backwards compatibility but ignored
-        self.encoder = LSTMEncoder(input_dim, hidden_dim, latent_dim, num_layers)
-        self.decoder = LSTMDecoder(latent_dim, hidden_dim, input_dim, seq_len, num_layers)
+        self.encoder = LSTMEncoder(input_dim, hidden_dim, latent_dim, num_layers, dropout)
+        self.decoder = LSTMDecoder(latent_dim, hidden_dim, input_dim, seq_len, num_layers, dropout)
         
     def forward(self, x):
         # x: (batch, seq_len, input_dim)
-        latent = self.encoder(x)
+        latent, _ = self.encoder(x)
         reconstructed = self.decoder(latent)
         return reconstructed
 
@@ -167,7 +189,13 @@ def load_model():
             num_layers=num_layers,
             dropout=dropout
         )
-        model.load_state_dict(checkpoint["model_state_dict"])
+        missing, unexpected = model.load_state_dict(checkpoint["model_state_dict"], strict=False)
+        if missing or unexpected:
+            logger.info({
+                "event": "checkpoint_state_dict_compatibility",
+                "missing": missing,
+                "unexpected": unexpected,
+            })
         model.to(device)
         model.eval()
         

@@ -1,0 +1,10 @@
+{
+  "training_start_time": "2026-07-04T09:23:43.065273Z",
+  "training_end_time": "2026-07-04T09:24:32.912590Z",
+  "total_duration_seconds": 49.84731698036194,
+  "average_epoch_duration_seconds": 16.338823159535725,
+  "average_batch_duration_seconds": 0.1533889671166738,
+  "epochs_completed": 3,
+  "total_batches": 288,
+  "device": "cpu"
+}

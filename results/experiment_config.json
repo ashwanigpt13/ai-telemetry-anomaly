@@ -1,12 +1,19 @@
 {
-  "timestamp": "2026-03-19T14:55:56.232717",
-  "modes": [
-    "global_static",
-    "global_dynamic",
-    "entity_dynamic",
-    "entity_drift"
-  ],
-  "duration_seconds": 60,
-  "warmup_seconds": 30,
-  "cooldown_seconds": 10
+  "experiment_name": "hybrid_quantum_vae_full_run",
+  "timestamp": "2026-07-04T09:23:41.232039Z",
+  "quantum_enabled": true,
+  "num_qubits": 4,
+  "quantum_layers": 2,
+  "batch_size": 8,
+  "epochs": 1,
+  "learning_rate": 0.001,
+  "beta": 0.001,
+  "contrastive_weight": 0.1,
+  "random_seed": 42,
+  "dataset": "FD001",
+  "window_size": 50,
+  "stride": 1,
+  "train_ratio": 0.8,
+  "dataset_size": null,
+  "training_device": null
 }

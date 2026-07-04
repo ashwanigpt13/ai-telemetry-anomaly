@@ -136,12 +136,12 @@ def split_windows(
     seed: int = 42
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
-    Split windows into train and validation sets.
+    Split windows into train and validation sets by engine_id to prevent data leakage.
     
     Args:
         windows: Array of windows
         engine_ids: Engine ID for each window
-        train_ratio: Fraction of data for training
+        train_ratio: Fraction of engines for training
         seed: Random seed for reproducibility
         
     Returns:
@@ -149,20 +149,36 @@ def split_windows(
     """
     np.random.seed(seed)
     
-    num_samples = len(windows)
-    indices = np.random.permutation(num_samples)
+    # Get unique engine IDs
+    unique_engines = np.unique(engine_ids)
+    num_engines = len(unique_engines)
     
-    split_idx = int(num_samples * train_ratio)
+    # Shuffle engine IDs
+    shuffled_engines = np.random.permutation(unique_engines)
     
-    train_indices = indices[:split_idx]
-    val_indices = indices[split_idx:]
+    # Split engines (not windows) into train/val
+    split_idx = int(num_engines * train_ratio)
+    train_engines = set(shuffled_engines[:split_idx])
+    val_engines = set(shuffled_engines[split_idx:])
     
-    train_windows = windows[train_indices]
-    val_windows = windows[val_indices]
-    train_ids = engine_ids[train_indices]
-    val_ids = engine_ids[val_indices]
+    # Create masks for train/val windows
+    train_mask = np.isin(engine_ids, list(train_engines))
+    val_mask = np.isin(engine_ids, list(val_engines))
     
-    print(f"Split data: {len(train_windows)} train, {len(val_windows)} validation")
+    train_windows = windows[train_mask]
+    val_windows = windows[val_mask]
+    train_ids = engine_ids[train_mask]
+    val_ids = engine_ids[val_mask]
+    
+    # Verify no engine appears in both sets
+    train_unique = set(np.unique(train_ids))
+    val_unique = set(np.unique(val_ids))
+    overlap = train_unique & val_unique
+    if overlap:
+        raise ValueError(f"Data leakage detected! Engines in both train and val: {overlap}")
+    
+    print(f"Split data: {len(train_windows)} train windows ({len(train_unique)} engines), "
+          f"{len(val_windows)} validation windows ({len(val_unique)} engines)")
     
     return train_windows, val_windows, train_ids, val_ids
 
