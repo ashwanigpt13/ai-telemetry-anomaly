@@ -1,0 +1,146 @@
+{
+  "models": {
+    "classical": {
+      "model_path": "D:\\telemetory code\\ai-telemetry-anomaly\\train\\classical_model.pt",
+      "metrics": {
+        "roc_auc": 0.6399,
+        "pr_auc": 0.2218,
+        "precision": 0.2397,
+        "recall": 0.2982,
+        "f1_score": 0.2658,
+        "true_positives": 99,
+        "false_positives": 314,
+        "true_negatives": 7609,
+        "false_negatives": 233,
+        "total_samples": 8255
+      },
+      "efficiency": {
+        "model_path": "D:\\telemetory code\\ai-telemetry-anomaly\\train\\classical_model.pt",
+        "total_parameters": 500473,
+        "trainable_parameters": 500473,
+        "quantum_parameters": 0,
+        "classical_parameters": 500473,
+        "model_size_bytes": 2014205,
+        "model_size_mb": 1.9209,
+        "average_inference_time_ms": 1.0212,
+        "device": "cpu",
+        "use_quantum": false
+      },
+      "threshold": 9605949.0,
+      "score_distribution": {
+        "mean": 9585917.0,
+        "std": 12567.106445,
+        "p95": 9605949.0
+      },
+      "input_alignment": {
+        "feature_names": [
+          "setting_1",
+          "setting_2",
+          "sensor_2",
+          "sensor_3",
+          "sensor_4",
+          "sensor_7",
+          "sensor_8",
+          "sensor_9",
+          "sensor_11",
+          "sensor_12",
+          "sensor_13",
+          "sensor_14",
+          "sensor_15",
+          "sensor_17",
+          "sensor_20",
+          "sensor_21"
+        ],
+        "train_mean": 1390.5135414853346,
+        "train_std": 2766.3182590379843,
+        "eval_mean": 1390.5094652612722,
+        "eval_std": 2766.3164405301836,
+        "train_shape": [
+          9494,
+          50,
+          16
+        ],
+        "eval_shape": [
+          8255,
+          50,
+          16
+        ],
+        "label_counts": {
+          "normal": 7923,
+          "anomaly": 332
+        }
+      }
+    },
+    "hybrid": {
+      "model_path": "D:\\telemetory code\\ai-telemetry-anomaly\\train\\hybrid_model.pt",
+      "metrics": {
+        "roc_auc": 0.7277,
+        "pr_auc": 0.2049,
+        "precision": 0.1477,
+        "recall": 0.1837,
+        "f1_score": 0.1638,
+        "true_positives": 61,
+        "false_positives": 352,
+        "true_negatives": 7571,
+        "false_negatives": 271,
+        "total_samples": 8255
+      },
+      "efficiency": {
+        "model_path": "D:\\telemetory code\\ai-telemetry-anomaly\\train\\hybrid_model.pt",
+        "total_parameters": 500573,
+        "trainable_parameters": 500573,
+        "quantum_parameters": 24,
+        "classical_parameters": 500549,
+        "model_size_bytes": 2016143,
+        "model_size_mb": 1.9227,
+        "average_inference_time_ms": 10.8198,
+        "device": "cpu",
+        "use_quantum": true
+      },
+      "threshold": 1.3469687700271606,
+      "score_distribution": {
+        "mean": 0.780112,
+        "std": 0.288771,
+        "p95": 1.346969
+      },
+      "input_alignment": {
+        "feature_names": [
+          "setting_1",
+          "setting_2",
+          "sensor_2",
+          "sensor_3",
+          "sensor_4",
+          "sensor_7",
+          "sensor_8",
+          "sensor_9",
+          "sensor_11",
+          "sensor_12",
+          "sensor_13",
+          "sensor_14",
+          "sensor_15",
+          "sensor_17",
+          "sensor_20",
+          "sensor_21"
+        ],
+        "train_mean": -0.017744155474281573,
+        "train_std": 0.9774317495894315,
+        "eval_mean": -0.020029310398065076,
+        "eval_std": 1.0029438002869826,
+        "train_shape": [
+          9494,
+          50,
+          16
+        ],
+        "eval_shape": [
+          8255,
+          50,
+          16
+        ],
+        "label_counts": {
+          "normal": 7923,
+          "anomaly": 332
+        }
+      }
+    }
+  }
+}

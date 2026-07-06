@@ -1,9 +1,11 @@
 {
-  "total_parameters": 129661,
-  "trainable_parameters": 129661,
-  "quantum_parameters": 24,
-  "classical_parameters": 129637,
-  "quantum_enabled": true,
+  "model_type": "classical",
+  "total_parameters": 500473,
+  "trainable_parameters": 500473,
+  "quantum_parameters": 0,
+  "classical_parameters": 500473,
+  "use_quantum": false,
+  "quantum_enabled": false,
   "num_qubits": 4,
   "quantum_layers": 2
 }

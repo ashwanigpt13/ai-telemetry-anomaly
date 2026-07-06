@@ -1,11 +1,13 @@
 {
-  "experiment_name": "hybrid_quantum_vae_full_run",
-  "timestamp": "2026-07-04T09:23:41.232039Z",
-  "quantum_enabled": true,
+  "experiment_name": "classical_vae_full_run",
+  "model_type": "classical",
+  "timestamp": "2026-07-06T20:59:33.870591+00:00",
+  "use_quantum": false,
+  "quantum_enabled": false,
   "num_qubits": 4,
   "quantum_layers": 2,
   "batch_size": 8,
-  "epochs": 1,
+  "epochs": 20,
   "learning_rate": 0.001,
   "beta": 0.001,
   "contrastive_weight": 0.1,
@@ -14,6 +16,7 @@
   "window_size": 50,
   "stride": 1,
   "train_ratio": 0.8,
-  "dataset_size": null,
-  "training_device": null
+  "dataset_size": 9494,
+  "training_device": "cpu",
+  "smoke_test": false
 }

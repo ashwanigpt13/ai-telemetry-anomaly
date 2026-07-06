@@ -1,8 +1,10 @@
 {
-  "best_epoch": 3,
-  "best_validation_loss": 0.87014040350914,
-  "epochs_completed": 3,
-  "early_stopped": false,
-  "training_time_seconds": 49.84731698036194,
-  "quantum_enabled": true
+  "model_type": "classical",
+  "best_epoch": 6,
+  "best_validation_loss": 0.7426523895017685,
+  "epochs_completed": 11,
+  "early_stopped": true,
+  "training_time_seconds": 242.86706495285034,
+  "use_quantum": false,
+  "quantum_enabled": false
 }

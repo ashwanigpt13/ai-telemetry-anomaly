@@ -59,7 +59,7 @@ class Config:
     BATCH_SIZE = 8
     EPOCHS = 20
     LEARNING_RATE = 0.001
-    USE_QUANTUM = True
+    USE_QUANTUM = False
     NUM_QUBITS = 4
     NUM_QUANTUM_LAYERS = 2
     RANDOM_SEED = 42
@@ -75,12 +75,16 @@ class Config:
     CONTRASTIVE_WEIGHT = 0.1  # Weight for contrastive loss
     
     # Early Stopping
-    EARLY_STOPPING_PATIENCE = 10
+    EARLY_STOPPING_PATIENCE = 5
     EARLY_STOPPING_MIN_DELTA = 1e-4
     
     # Output
     RESULTS_DIR = "results"
-    MODEL_PATH = os.path.join("train", "hybrid_model.pt")
+    MODEL_PATH = os.path.join("train", "classical_model.pt")
+    CLASSICAL_MODEL_PATH = os.path.join("train", "classical_model.pt")
+    HYBRID_MODEL_PATH = os.path.join("train", "hybrid_model.pt")
+    MODEL_METADATA_PATH = os.path.join("train", "classical_model_metadata.json")
+    CLASSICAL_MODEL_METADATA_PATH = os.path.join("train", "classical_model_metadata.json")
     HYBRID_MODEL_METADATA_PATH = os.path.join("train", "hybrid_model_metadata.json")
     NORM_STATS_PATH = "norm_stats.json"
     GLOBAL_STATS_PATH = "global_stats.json"
@@ -96,7 +100,7 @@ class Config:
     SEED = 42
     
     # Early Stopping
-    EARLY_STOPPING_PATIENCE = 10
+    EARLY_STOPPING_PATIENCE = 5
     EARLY_STOPPING_MIN_DELTA = 1e-4
 
 
@@ -497,6 +501,52 @@ def save_json(data: dict, filepath: str) -> None:
     print(f"Saved JSON file to {filepath}")
 
 
+def parse_bool(value) -> bool:
+    """Parse boolean command-line values such as True/False."""
+    if isinstance(value, bool):
+        return value
+    normalized = value.strip().lower()
+    if normalized in {"true", "1", "yes", "y"}:
+        return True
+    if normalized in {"false", "0", "no", "n"}:
+        return False
+    raise argparse.ArgumentTypeError("Expected a boolean value: True or False")
+
+
+def configure_model_outputs(config: Config) -> None:
+    """Route model artifacts to classical or hybrid filenames."""
+    if config.USE_QUANTUM:
+        config.MODEL_PATH = config.HYBRID_MODEL_PATH
+        config.MODEL_METADATA_PATH = config.HYBRID_MODEL_METADATA_PATH
+    else:
+        config.MODEL_PATH = config.CLASSICAL_MODEL_PATH
+        config.MODEL_METADATA_PATH = config.CLASSICAL_MODEL_METADATA_PATH
+
+
+def verify_checkpoint_strict(filepath: str, device: str) -> None:
+    """Reload a saved checkpoint with strict state-dict validation."""
+    checkpoint = torch.load(filepath, map_location=device)
+    model_config = checkpoint.get("model_config", {})
+    verification_model = LSTMAutoencoder(
+        input_dim=checkpoint.get("input_dim", model_config.get("input_dim", 16)),
+        hidden_dim=checkpoint.get("hidden_dim", model_config.get("hidden_dim", 64)),
+        latent_dim=checkpoint.get("latent_dim", model_config.get("latent_dim", 32)),
+        num_layers=checkpoint.get("num_layers", model_config.get("num_layers", 1)),
+        dropout=checkpoint.get("dropout", model_config.get("dropout", 0.1)),
+        use_quantum=checkpoint.get("use_quantum", model_config.get("use_quantum", False)),
+    ).to(device)
+
+    missing, unexpected = verification_model.load_state_dict(
+        checkpoint["model_state_dict"],
+        strict=True,
+    )
+    print(f"Missing keys : {len(missing)}")
+    print(f"Unexpected keys : {len(unexpected)}")
+
+    model_type = "Hybrid" if verification_model.use_quantum else "Classical"
+    print(f"{model_type} checkpoint verified successfully")
+
+
 def save_training_history(history: dict, filepath: str) -> None:
     """Save training history to CSV file."""
     headers = [
@@ -625,6 +675,9 @@ def subset_windows(windows: np.ndarray, engine_ids: np.ndarray, fraction: float,
 
 def train(config: Config) -> None:
     """Main training function."""
+    configure_model_outputs(config)
+    model_type = "hybrid" if config.USE_QUANTUM else "classical"
+
     print("=" * 60)
     print("LSTM Autoencoder Training")
     print("=" * 60)
@@ -637,14 +690,24 @@ def train(config: Config) -> None:
     print(f"  Epochs: {config.EPOCHS}")
     print(f"  Batch size: {config.BATCH_SIZE}")
     print(f"  Early stopping patience: {config.EARLY_STOPPING_PATIENCE}")
+    print(f"  Hidden dimension: {config.HIDDEN_DIM}")
+    print(f"  Latent dimension: {config.LATENT_DIM}")
+    print(f"  Num layers: {config.NUM_LAYERS}")
+    print(f"  Dropout: {config.DROPOUT}")
     print(f"  Use quantum: {config.USE_QUANTUM}")
     print(f"  Num qubits: {config.NUM_QUBITS}")
     print(f"  Num quantum layers: {config.NUM_QUANTUM_LAYERS}")
     print(f"  Random seed: {config.RANDOM_SEED}")
     print(f"  Learning rate: {config.LEARNING_RATE}")
     print(f"  Beta: {config.BETA}")
+    print(f"  Max beta: {config.MAX_BETA}")
     print(f"  Contrastive weight: {config.CONTRASTIVE_WEIGHT}")
     print(f"  Dataset: {config.DATASET}")
+    print(f"  Window size: {config.WINDOW_SIZE}")
+    print(f"  Stride: {config.STRIDE}")
+    print(f"  Train ratio: {config.TRAIN_RATIO}")
+    print(f"  Model path: {config.MODEL_PATH}")
+    print(f"  Metadata path: {config.MODEL_METADATA_PATH}")
 
     # Set seed
     set_seed(config.RANDOM_SEED)
@@ -727,8 +790,10 @@ def train(config: Config) -> None:
         print(f"  Windows used: {len(windows)}")
 
     experiment_metadata = {
-        "experiment_name": "hybrid_quantum_vae_full_run",
+        "experiment_name": f"{model_type}_vae_full_run",
+        "model_type": model_type,
         "timestamp": datetime.now(timezone.utc).isoformat(),
+        "use_quantum": config.USE_QUANTUM,
         "quantum_enabled": config.USE_QUANTUM,
         "num_qubits": config.NUM_QUBITS,
         "quantum_layers": config.NUM_QUANTUM_LAYERS,
@@ -776,10 +841,12 @@ def train(config: Config) -> None:
     classical_parameters = trainable_parameters - quantum_parameters
 
     model_statistics = {
+        "model_type": model_type,
         "total_parameters": total_parameters,
         "trainable_parameters": trainable_parameters,
         "quantum_parameters": quantum_parameters,
         "classical_parameters": classical_parameters,
+        "use_quantum": config.USE_QUANTUM,
         "quantum_enabled": config.USE_QUANTUM,
         "num_qubits": config.NUM_QUBITS,
         "quantum_layers": config.NUM_QUANTUM_LAYERS
@@ -965,8 +1032,22 @@ def train(config: Config) -> None:
         feature_mean=norm_stats["feature_mean"],
         feature_std=norm_stats["feature_std"]
     )
+    verify_checkpoint_strict(config.MODEL_PATH, device)
 
     model_metadata = {
+        "model_type": model_type,
+        "training_timestamp": datetime.fromtimestamp(training_end_time, timezone.utc).isoformat(),
+        "dataset": config.DATASET,
+        "window_size": config.WINDOW_SIZE,
+        "feature_names": features,
+        "hidden_dim": config.HIDDEN_DIM,
+        "latent_dim": config.LATENT_DIM,
+        "num_layers": config.NUM_LAYERS,
+        "dropout": config.DROPOUT,
+        "learning_rate": config.LEARNING_RATE,
+        "batch_size": config.BATCH_SIZE,
+        "epochs": config.EPOCHS,
+        "random_seed": config.RANDOM_SEED,
         "best_validation_loss": best_val_loss,
         "best_epoch": best_epoch,
         "training_time_seconds": training_duration,
@@ -974,18 +1055,21 @@ def train(config: Config) -> None:
         "trainable_parameters": trainable_parameters,
         "quantum_parameters": quantum_parameters,
         "classical_parameters": classical_parameters,
+        "use_quantum": config.USE_QUANTUM,
         "quantum_enabled": config.USE_QUANTUM,
         "num_qubits": config.NUM_QUBITS,
         "num_quantum_layers": config.NUM_QUANTUM_LAYERS
     }
-    save_json(model_metadata, config.HYBRID_MODEL_METADATA_PATH)
+    save_json(model_metadata, config.MODEL_METADATA_PATH)
 
     training_summary = {
+        "model_type": model_type,
         "best_epoch": best_epoch,
         "best_validation_loss": best_val_loss,
         "epochs_completed": len(epoch_durations),
         "early_stopped": early_stopping.early_stop,
         "training_time_seconds": training_duration,
+        "use_quantum": config.USE_QUANTUM,
         "quantum_enabled": config.USE_QUANTUM
     }
     save_json(training_summary, config.TRAINING_SUMMARY_PATH)
@@ -1007,17 +1091,18 @@ def train(config: Config) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Train LSTM Autoencoder")
-    parser.add_argument("--epochs", type=int, default=50, help="Number of epochs")
-    parser.add_argument("--batch-size", type=int, default=32, help="Batch size")
+    parser.add_argument("--epochs", type=int, default=Config.EPOCHS, help="Number of epochs")
+    parser.add_argument("--batch-size", type=int, default=Config.BATCH_SIZE, help="Batch size")
     parser.add_argument("--lr", type=float, default=0.001, help="Learning rate")
-    parser.add_argument("--hidden-dim", type=int, default=64, help="LSTM hidden dimension")
-    parser.add_argument("--latent-dim", type=int, default=32, help="Latent dimension")
+    parser.add_argument("--hidden-dim", type=int, default=Config.HIDDEN_DIM, help="LSTM hidden dimension")
+    parser.add_argument("--latent-dim", type=int, default=Config.LATENT_DIM, help="Latent dimension")
     parser.add_argument("--data-dir", type=str, default="data", help="Data directory")
-    parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    parser.add_argument("--early-stopping-patience", type=int, default=10, help="Early stopping patience")
+    parser.add_argument("--seed", type=int, default=Config.RANDOM_SEED, help="Random seed")
+    parser.add_argument("--early-stopping-patience", type=int, default=Config.EARLY_STOPPING_PATIENCE, help="Early stopping patience")
     parser.add_argument("--early-stopping-min-delta", type=float, default=1e-4, help="Early stopping min delta")
-    parser.add_argument("--beta", type=float, default=0.001, help="Weight for KL divergence in VAE loss")
-    parser.add_argument("--smoke-test", action="store_true", help="Train a tiny hybrid smoke test run")
+    parser.add_argument("--beta", type=float, default=Config.BETA, help="Weight for KL divergence in VAE loss")
+    parser.add_argument("--use-quantum", type=parse_bool, default=Config.USE_QUANTUM, help="Enable the hybrid quantum layer: True or False")
+    parser.add_argument("--smoke-test", action="store_true", help="Train a tiny smoke test run")
     args = parser.parse_args()
     
     # Update config
@@ -1034,6 +1119,7 @@ def main():
     config.EARLY_STOPPING_MIN_DELTA = args.early_stopping_min_delta
     config.BETA = args.beta
     config.MAX_BETA = args.beta
+    config.USE_QUANTUM = args.use_quantum
     config.SMOKE_TEST = args.smoke_test
     
     # Run training
