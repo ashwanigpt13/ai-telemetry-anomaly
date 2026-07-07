@@ -1,0 +1,238 @@
+{
+  "figures": [
+    {
+      "filename": "roc_curve.png",
+      "description": "Receiver operating characteristic curves for the classical and hybrid models.",
+      "paper_section": "Benchmark Results",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "roc_curve.pdf",
+      "description": "Receiver operating characteristic curves for the classical and hybrid models.",
+      "paper_section": "Benchmark Results",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "roc_curve.svg",
+      "description": "Receiver operating characteristic curves for the classical and hybrid models.",
+      "paper_section": "Benchmark Results",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pr_curve.png",
+      "description": "Precision-recall curves for the classical and hybrid models.",
+      "paper_section": "Benchmark Results",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pr_curve.pdf",
+      "description": "Precision-recall curves for the classical and hybrid models.",
+      "paper_section": "Benchmark Results",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pr_curve.svg",
+      "description": "Precision-recall curves for the classical and hybrid models.",
+      "paper_section": "Benchmark Results",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "training_curves.png",
+      "description": "Training and validation loss curves from the frozen training run.",
+      "paper_section": "Training Procedure",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "training_curves.pdf",
+      "description": "Training and validation loss curves from the frozen training run.",
+      "paper_section": "Training Procedure",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "training_curves.svg",
+      "description": "Training and validation loss curves from the frozen training run.",
+      "paper_section": "Training Procedure",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "parameter_comparison.png",
+      "description": "Total and quantum parameter comparison for the two models.",
+      "paper_section": "Efficiency Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "parameter_comparison.pdf",
+      "description": "Total and quantum parameter comparison for the two models.",
+      "paper_section": "Efficiency Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "parameter_comparison.svg",
+      "description": "Total and quantum parameter comparison for the two models.",
+      "paper_section": "Efficiency Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "training_time.png",
+      "description": "Training time comparison for the classical and hybrid models.",
+      "paper_section": "Efficiency Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "training_time.pdf",
+      "description": "Training time comparison for the classical and hybrid models.",
+      "paper_section": "Efficiency Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "training_time.svg",
+      "description": "Training time comparison for the classical and hybrid models.",
+      "paper_section": "Efficiency Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "confusion_matrix_classical.png",
+      "description": "Confusion matrix for the classical model on the aligned evaluation set.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "confusion_matrix_classical.pdf",
+      "description": "Confusion matrix for the classical model on the aligned evaluation set.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "confusion_matrix_classical.svg",
+      "description": "Confusion matrix for the classical model on the aligned evaluation set.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "confusion_matrix_hybrid.png",
+      "description": "Confusion matrix for the hybrid quantum model on the aligned evaluation set.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "confusion_matrix_hybrid.pdf",
+      "description": "Confusion matrix for the hybrid quantum model on the aligned evaluation set.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "confusion_matrix_hybrid.svg",
+      "description": "Confusion matrix for the hybrid quantum model on the aligned evaluation set.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "score_distribution_classical.png",
+      "description": "Classical model reconstruction-error distribution by ground-truth class.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "score_distribution_classical.pdf",
+      "description": "Classical model reconstruction-error distribution by ground-truth class.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "score_distribution_classical.svg",
+      "description": "Classical model reconstruction-error distribution by ground-truth class.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "score_distribution_hybrid.png",
+      "description": "Hybrid model reconstruction-error distribution by ground-truth class.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "score_distribution_hybrid.pdf",
+      "description": "Hybrid model reconstruction-error distribution by ground-truth class.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "score_distribution_hybrid.svg",
+      "description": "Hybrid model reconstruction-error distribution by ground-truth class.",
+      "paper_section": "Error Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pca_classical.png",
+      "description": "PCA projection of classical model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pca_classical.pdf",
+      "description": "PCA projection of classical model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pca_classical.svg",
+      "description": "PCA projection of classical model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pca_hybrid.png",
+      "description": "PCA projection of hybrid model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pca_hybrid.pdf",
+      "description": "PCA projection of hybrid model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "pca_hybrid.svg",
+      "description": "PCA projection of hybrid model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "tsne_classical.png",
+      "description": "t-SNE projection of classical model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "tsne_classical.pdf",
+      "description": "t-SNE projection of classical model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "tsne_classical.svg",
+      "description": "t-SNE projection of classical model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "tsne_hybrid.png",
+      "description": "t-SNE projection of hybrid model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "tsne_hybrid.pdf",
+      "description": "t-SNE projection of hybrid model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    },
+    {
+      "filename": "tsne_hybrid.svg",
+      "description": "t-SNE projection of hybrid model latent embeddings.",
+      "paper_section": "Latent Space Analysis",
+      "figure_number_placeholder": "Figure X"
+    }
+  ]
+}

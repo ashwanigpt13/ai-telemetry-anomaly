@@ -1,0 +1,36 @@
+{
+  "benchmark_results": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\FinalResults\\results.json",
+  "statistics": {
+    "Classical": {
+      "true_positives": 283,
+      "true_negatives": 7120,
+      "false_positives": 803,
+      "false_negatives": 49,
+      "false_positive_rate": 0.1013504985485296,
+      "false_negative_rate": 0.14759036144578314,
+      "balanced_accuracy": 0.8755295700028436,
+      "mcc": 0.4365598611286641
+    },
+    "Hybrid": {
+      "true_positives": 332,
+      "true_negatives": 178,
+      "false_positives": 7745,
+      "false_negatives": 0,
+      "false_positive_rate": 0.9775337624637133,
+      "false_negative_rate": 0.0,
+      "balanced_accuracy": 0.5112331187681434,
+      "mcc": 0.030388493709996738
+    }
+  },
+  "comparison": {
+    "samples_corrected_by_hybrid": 49,
+    "samples_corrected_by_classical": 6942
+  },
+  "outputs": {
+    "classical_sample_errors": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\error_analysis\\classical_sample_errors.csv",
+    "hybrid_sample_errors": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\error_analysis\\hybrid_sample_errors.csv",
+    "samples_corrected_by_hybrid": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\error_analysis\\samples_corrected_by_hybrid.csv",
+    "samples_corrected_by_classical": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\error_analysis\\samples_corrected_by_classical.csv",
+    "error_statistics": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\error_analysis\\error_statistics.csv"
+  }
+}

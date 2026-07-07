@@ -1,0 +1,22 @@
+{
+  "models": {
+    "classical": {
+      "training_time_seconds": 242.86706495285034,
+      "total_parameters": 500473,
+      "trainable_parameters": 500473,
+      "quantum_parameters": 0,
+      "model_size_bytes": 2014205,
+      "model_size_mb": 1.9208955764770508,
+      "average_inference_time_ms": 0.29438703815844236
+    },
+    "hybrid": {
+      "training_time_seconds": 3854.864205121994,
+      "total_parameters": 500573,
+      "trainable_parameters": 500573,
+      "quantum_parameters": 24,
+      "model_size_bytes": 2016143,
+      "model_size_mb": 1.922743797302246,
+      "average_inference_time_ms": 6.934051677771999
+    }
+  }
+}

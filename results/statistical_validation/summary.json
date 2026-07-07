@@ -1,0 +1,185 @@
+{
+  "seeds": [
+    42,
+    123,
+    456
+  ],
+  "raw_results": [
+    {
+      "seed": 42,
+      "model": "Classical",
+      "roc_auc": 0.9435489021591857,
+      "pr_auc": 0.6932132240220206,
+      "precision": 0.2606,
+      "recall": 0.8524,
+      "f1": 0.3992,
+      "training_time_seconds": 242.86706495285034,
+      "average_inference_time_ms": 0.27637412477336,
+      "total_parameters": 500473,
+      "quantum_parameters": 0
+    },
+    {
+      "seed": 42,
+      "model": "Hybrid",
+      "roc_auc": 0.7284100430498974,
+      "pr_auc": 0.20205033751119322,
+      "precision": 0.0411,
+      "recall": 1.0,
+      "f1": 0.079,
+      "training_time_seconds": 3854.864205121994,
+      "average_inference_time_ms": 7.468854354935355,
+      "total_parameters": 500573,
+      "quantum_parameters": 24
+    },
+    {
+      "seed": 123,
+      "model": "Classical",
+      "roc_auc": 0.9419691260308177,
+      "pr_auc": 0.675403862754051,
+      "precision": 0.2504,
+      "recall": 0.8464,
+      "f1": 0.3865,
+      "training_time_seconds": 242.86706495285034,
+      "average_inference_time_ms": 0.3370340884306938,
+      "total_parameters": 500473,
+      "quantum_parameters": 0
+    },
+    {
+      "seed": 123,
+      "model": "Hybrid",
+      "roc_auc": 0.7287335635613259,
+      "pr_auc": 0.20250549839749565,
+      "precision": 0.0411,
+      "recall": 1.0,
+      "f1": 0.0789,
+      "training_time_seconds": 3854.864205121994,
+      "average_inference_time_ms": 8.027564300423593,
+      "total_parameters": 500573,
+      "quantum_parameters": 24
+    },
+    {
+      "seed": 456,
+      "model": "Classical",
+      "roc_auc": 0.9394104247356712,
+      "pr_auc": 0.6803215749949872,
+      "precision": 0.2555,
+      "recall": 0.8343,
+      "f1": 0.3912,
+      "training_time_seconds": 242.86706495285034,
+      "average_inference_time_ms": 0.29438703815844236,
+      "total_parameters": 500473,
+      "quantum_parameters": 0
+    },
+    {
+      "seed": 456,
+      "model": "Hybrid",
+      "roc_auc": 0.7233819792612327,
+      "pr_auc": 0.20407145541254473,
+      "precision": 0.0411,
+      "recall": 1.0,
+      "f1": 0.079,
+      "training_time_seconds": 3854.864205121994,
+      "average_inference_time_ms": 6.934051677771999,
+      "total_parameters": 500573,
+      "quantum_parameters": 24
+    }
+  ],
+  "summary": {
+    "Classical": {
+      "roc_auc": {
+        "mean": 0.9416428176418915,
+        "std": 0.0020884460059450143
+      },
+      "pr_auc": {
+        "mean": 0.6829795539236863,
+        "std": 0.009197389639583615
+      },
+      "precision": {
+        "mean": 0.2555,
+        "std": 0.005099999999999993
+      },
+      "recall": {
+        "mean": 0.8443666666666667,
+        "std": 0.009219725230902132
+      },
+      "f1": {
+        "mean": 0.3923,
+        "std": 0.0064210591026714545
+      },
+      "average_inference_time_ms": {
+        "mean": 0.3025984171208321,
+        "std": 0.031152493577164053
+      },
+      "training_time_seconds": {
+        "mean": 242.86706495285034,
+        "std": 0.0
+      }
+    },
+    "Hybrid": {
+      "roc_auc": {
+        "mean": 0.7268418619574853,
+        "std": 0.003000709513465115
+      },
+      "pr_auc": {
+        "mean": 0.20287576377374453,
+        "std": 0.0010602130585063685
+      },
+      "precision": {
+        "mean": 0.0411,
+        "std": 0.0
+      },
+      "recall": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "f1": {
+        "mean": 0.07896666666666667,
+        "std": 5.773502691896423e-05
+      },
+      "average_inference_time_ms": {
+        "mean": 7.476823444376983,
+        "std": 0.5467998662806062
+      },
+      "training_time_seconds": {
+        "mean": 3854.864205121994,
+        "std": 0.0
+      }
+    }
+  },
+  "parameter_counts": {
+    "Classical": [
+      {
+        "seed": 42,
+        "total_parameters": 500473,
+        "quantum_parameters": 0
+      },
+      {
+        "seed": 123,
+        "total_parameters": 500473,
+        "quantum_parameters": 0
+      },
+      {
+        "seed": 456,
+        "total_parameters": 500473,
+        "quantum_parameters": 0
+      }
+    ],
+    "Hybrid": [
+      {
+        "seed": 42,
+        "total_parameters": 500573,
+        "quantum_parameters": 24
+      },
+      {
+        "seed": 123,
+        "total_parameters": 500573,
+        "quantum_parameters": 24
+      },
+      {
+        "seed": 456,
+        "total_parameters": 500573,
+        "quantum_parameters": 24
+      }
+    ]
+  }
+}

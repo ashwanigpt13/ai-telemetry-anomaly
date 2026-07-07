@@ -365,6 +365,10 @@ def load_threshold(model_name: str, checkpoint: Dict[str, Any]) -> Tuple[float, 
         if "global_mean" in checkpoint_stats and "global_std" in checkpoint_stats:
             return float(checkpoint_stats["global_mean"]) + 2.0 * float(checkpoint_stats["global_std"]), "checkpoint.global_stats.mean_plus_2std"
 
+    # Frozen benchmark calibration policy:
+    # Classical and hybrid models intentionally use separate training-error
+    # calibration files. Do not recompute or merge these thresholds unless
+    # creating a new benchmark version.
     candidates = {
         "classical": [
             REPO_ROOT / "global_stats.json",
@@ -372,6 +376,9 @@ def load_threshold(model_name: str, checkpoint: Dict[str, Any]) -> Tuple[float, 
             REPO_ROOT / "train" / "global_stats_classical.json",
         ],
         "hybrid": [
+            # Compatibility path used by frozen benchmark outputs. The clearer
+            # provenance copy is train/hybrid_global_stats.json with identical
+            # numeric statistics and added metadata.
             REPO_ROOT / "train" / "global_stats.json",
             REPO_ROOT / "train" / "hybrid_global_stats.json",
             REPO_ROOT / "train" / "global_stats_hybrid.json",

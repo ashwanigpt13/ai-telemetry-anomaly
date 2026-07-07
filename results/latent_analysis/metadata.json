@@ -1,0 +1,90 @@
+{
+  "dataset": "FD001",
+  "window_size": 50,
+  "stride": 1,
+  "rul_threshold": 30.0,
+  "device": "cpu",
+  "seed": 42,
+  "num_samples": 8255,
+  "num_anomaly_samples": 332,
+  "num_normal_samples": 7923,
+  "latent_dimensions": {
+    "classical": 64,
+    "hybrid": 64
+  },
+  "latent_shapes": {
+    "classical": [
+      8255,
+      64
+    ],
+    "hybrid": [
+      8255,
+      64
+    ]
+  },
+  "checkpoints": {
+    "classical": "D:\\telemetory code\\ai-telemetry-anomaly\\train\\classical_model.pt",
+    "hybrid": "D:\\telemetory code\\ai-telemetry-anomaly\\train\\hybrid_model.pt"
+  },
+  "metadata_compatibility": {
+    "classical": {
+      "dataset": "FD001",
+      "feature_names": [
+        "setting_1",
+        "setting_2",
+        "sensor_2",
+        "sensor_3",
+        "sensor_4",
+        "sensor_7",
+        "sensor_8",
+        "sensor_9",
+        "sensor_11",
+        "sensor_12",
+        "sensor_13",
+        "sensor_14",
+        "sensor_15",
+        "sensor_17",
+        "sensor_20",
+        "sensor_21"
+      ],
+      "window_size": 50,
+      "hidden_dim": 128,
+      "latent_dim": 64,
+      "batch_size": 8,
+      "learning_rate": 0.001,
+      "random_seed": 42
+    },
+    "hybrid": {
+      "dataset": "FD001",
+      "feature_names": [
+        "setting_1",
+        "setting_2",
+        "sensor_2",
+        "sensor_3",
+        "sensor_4",
+        "sensor_7",
+        "sensor_8",
+        "sensor_9",
+        "sensor_11",
+        "sensor_12",
+        "sensor_13",
+        "sensor_14",
+        "sensor_15",
+        "sensor_17",
+        "sensor_20",
+        "sensor_21"
+      ],
+      "window_size": 50,
+      "hidden_dim": 128,
+      "latent_dim": 64,
+      "batch_size": 8,
+      "learning_rate": 0.001,
+      "random_seed": 42
+    }
+  },
+  "outputs": {
+    "classical_latent": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\latent_analysis\\classical_latent.npy",
+    "hybrid_latent": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\latent_analysis\\hybrid_latent.npy",
+    "labels": "D:\\telemetory code\\ai-telemetry-anomaly\\results\\latent_analysis\\labels.npy"
+  }
+}
