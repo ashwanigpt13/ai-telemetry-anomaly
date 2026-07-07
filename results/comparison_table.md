@@ -1,4 +1,4 @@
-| model | roc_auc | pr_auc | precision | recall | f1_score | total_parameters | trainable_parameters | quantum_parameters | model_size_mb | average_inference_time_ms |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| classical | 0.6399 | 0.2218 | 0.2397 | 0.2982 | 0.2658 | 500,473 | 500,473 | 0 | 1.9209 | 1.0212 |
-| hybrid | 0.7277 | 0.2049 | 0.1477 | 0.1837 | 0.1638 | 500,573 | 500,573 | 24 | 1.9227 | 10.8198 |
+| Model | ROC-AUC | PR-AUC | Precision | Recall | F1 | TN | FP | FN | TP | Avg Inference (ms) | Training (s) | Total Params | Quantum Params | Size (MB) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Classical | 0.943549 | 0.693213 | 0.260600 | 0.852400 | 0.399200 | 7120 | 803 | 49 | 283 | 0.291966 | 242.867065 | 500473 | 0 | 1.920896 |
+| Hybrid Quantum | 0.728410 | 0.202050 | 0.041100 | 1.000000 | 0.079000 | 178 | 7745 | 0 | 332 | 10.844224 | 3854.864205 | 500573 | 24 | 1.922744 |

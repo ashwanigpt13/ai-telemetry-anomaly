@@ -1,11 +1,11 @@
 \begin{table}[ht]
 \centering
-\begin{tabular}{lrrrrrrrrrr}
+\begin{tabular}{lrrrrrrrrrrrrrr}
 \toprule
-Model & ROC-AUC & PR-AUC & Precision & Recall & F1 & Params & Trainable & Quantum & Size (MB) & Inf. (ms) \
+Model & ROC-AUC & PR-AUC & Precision & Recall & F1 & TN & FP & FN & TP & Inf. ms & Train s & Params & Q Params & MB \\
 \midrule
-classical & 0.6399 & 0.2218 & 0.2397 & 0.2982 & 0.2658 & 500,473 & 500,473 & 0 & 1.9209 & 1.0212 \
-hybrid & 0.7277 & 0.2049 & 0.1477 & 0.1837 & 0.1638 & 500,573 & 500,573 & 24 & 1.9227 & 10.8198 \
+Classical & 0.943549 & 0.693213 & 0.260600 & 0.852400 & 0.399200 & 7120 & 803 & 49 & 283 & 0.291966 & 242.867065 & 500473 & 0 & 1.920896 \\
+Hybrid Quantum & 0.728410 & 0.202050 & 0.041100 & 1.000000 & 0.079000 & 178 & 7745 & 0 & 332 & 10.844224 & 3854.864205 & 500573 & 24 & 1.922744 \\
 \bottomrule
 \end{tabular}
 \end{table}

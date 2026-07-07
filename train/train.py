@@ -501,6 +501,50 @@ def save_json(data: dict, filepath: str) -> None:
     print(f"Saved JSON file to {filepath}")
 
 
+def save_model_metadata(
+    filepath: str,
+    config: Config,
+    model_type: str,
+    training_timestamp: str,
+    feature_names: list,
+    best_validation_loss: float,
+    best_epoch: int,
+    training_time_seconds: float,
+    total_parameters: int,
+    trainable_parameters: int,
+    quantum_parameters: int,
+    classical_parameters: int
+) -> None:
+    """Save model metadata using the same schema for classical and hybrid models."""
+    model_metadata = {
+        "model_type": model_type,
+        "training_timestamp": training_timestamp,
+        "dataset": config.DATASET,
+        "window_size": config.WINDOW_SIZE,
+        "feature_names": feature_names,
+        "hidden_dim": config.HIDDEN_DIM,
+        "latent_dim": config.LATENT_DIM,
+        "num_layers": config.NUM_LAYERS,
+        "dropout": config.DROPOUT,
+        "learning_rate": config.LEARNING_RATE,
+        "batch_size": config.BATCH_SIZE,
+        "epochs": config.EPOCHS,
+        "random_seed": config.RANDOM_SEED,
+        "best_validation_loss": best_validation_loss,
+        "best_epoch": best_epoch,
+        "training_time_seconds": training_time_seconds,
+        "total_parameters": total_parameters,
+        "trainable_parameters": trainable_parameters,
+        "quantum_parameters": quantum_parameters,
+        "classical_parameters": classical_parameters,
+        "use_quantum": config.USE_QUANTUM,
+        "quantum_enabled": config.USE_QUANTUM,
+        "num_qubits": config.NUM_QUBITS,
+        "num_quantum_layers": config.NUM_QUANTUM_LAYERS
+    }
+    save_json(model_metadata, filepath)
+
+
 def parse_bool(value) -> bool:
     """Parse boolean command-line values such as True/False."""
     if isinstance(value, bool):
@@ -1034,33 +1078,20 @@ def train(config: Config) -> None:
     )
     verify_checkpoint_strict(config.MODEL_PATH, device)
 
-    model_metadata = {
-        "model_type": model_type,
-        "training_timestamp": datetime.fromtimestamp(training_end_time, timezone.utc).isoformat(),
-        "dataset": config.DATASET,
-        "window_size": config.WINDOW_SIZE,
-        "feature_names": features,
-        "hidden_dim": config.HIDDEN_DIM,
-        "latent_dim": config.LATENT_DIM,
-        "num_layers": config.NUM_LAYERS,
-        "dropout": config.DROPOUT,
-        "learning_rate": config.LEARNING_RATE,
-        "batch_size": config.BATCH_SIZE,
-        "epochs": config.EPOCHS,
-        "random_seed": config.RANDOM_SEED,
-        "best_validation_loss": best_val_loss,
-        "best_epoch": best_epoch,
-        "training_time_seconds": training_duration,
-        "total_parameters": total_parameters,
-        "trainable_parameters": trainable_parameters,
-        "quantum_parameters": quantum_parameters,
-        "classical_parameters": classical_parameters,
-        "use_quantum": config.USE_QUANTUM,
-        "quantum_enabled": config.USE_QUANTUM,
-        "num_qubits": config.NUM_QUBITS,
-        "num_quantum_layers": config.NUM_QUANTUM_LAYERS
-    }
-    save_json(model_metadata, config.MODEL_METADATA_PATH)
+    save_model_metadata(
+        filepath=config.MODEL_METADATA_PATH,
+        config=config,
+        model_type=model_type,
+        training_timestamp=datetime.fromtimestamp(training_end_time, timezone.utc).isoformat(),
+        feature_names=features,
+        best_validation_loss=best_val_loss,
+        best_epoch=best_epoch,
+        training_time_seconds=training_duration,
+        total_parameters=total_parameters,
+        trainable_parameters=trainable_parameters,
+        quantum_parameters=quantum_parameters,
+        classical_parameters=classical_parameters
+    )
 
     training_summary = {
         "model_type": model_type,
